@@ -1,5 +1,5 @@
 {
-  "name": "netlify-plugin-example",
+  "name": "netlify-plugin-sleuth",
   "version": "0.0.1",
   "description": "Netlify Build plugin - {{description}}",
   "main": "src/index.js",
@@ -26,10 +26,12 @@
     "netlify"
   ],
   "author": "{{author}} <{{email}}>",
-  "license": "{{license}}",
-  "repository": "{{repo}}",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "repository": {
+    "type": "git",
+    "url": "{{repo}}"
+  },
   "directories": {
-    "lib": "src",
     "test": "test"
   },
   "devDependencies": {
