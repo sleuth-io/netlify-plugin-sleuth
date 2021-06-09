@@ -65,7 +65,7 @@ module.exports = {
       // Utility for dealing with modified, created, deleted files since a git commit.
       // See https://github.com/netlify/build/blob/master/packages/git-utils#readme
       git,
-       // Utility for handling Netlify Functions.
+      // Utility for handling Netlify Functions.
       // See https://github.com/netlify/build/tree/master/packages/functions-utils#readme
       functions,
     },

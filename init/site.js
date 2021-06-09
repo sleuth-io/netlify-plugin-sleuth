@@ -60,9 +60,7 @@ const createNewSite = async function (name, username) {
   }
 
   const accountSlug = getAccountSlug(username)
-  const {
-    all: allA,
-  } = await execa.command(
+  const { all: allA } = await execa.command(
     `netlify sites:create --name netlify-plugin-${name} ${accountSlug}`,
     { all: true },
   )

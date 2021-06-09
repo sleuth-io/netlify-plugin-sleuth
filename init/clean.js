@@ -21,9 +21,8 @@ const cleanRepo = async function () {
 // Remove `npm run init` in `package.json` and all `devDependencies`.
 const cleanPackageJson = async function () {
   const content = await pReadFile(PACKAGE_JSON, 'utf8')
-  const { scripts, dependencies, devDependencies, ...packageJson } = JSON.parse(
-    content,
-  )
+  const { scripts, dependencies, devDependencies, ...packageJson } =
+    JSON.parse(content)
 
   const scriptsA = omit(scripts, ['init'])
   const devDependenciesA = filterObj(devDependencies, shouldKeepDevDependency)
