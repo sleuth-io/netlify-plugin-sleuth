@@ -76,6 +76,7 @@ module.exports = {
     const sha = process.env.COMMIT_REF
 
     status.show({ summary: 'Registering sha ' + sha});
+    console.log("Registering sha " + sha);
     const data = JSON.stringify({"sha": sha, "api_key": inputs.api_key})
     const {body, statusCode} = await new Promise((resolve, reject) => {
       const req = http.request(url, {
