@@ -3,13 +3,18 @@
 ##############################
 
 # List of Build plugins
-[[plugins]]
+[[context.production.plugins]]
 # Use the current plugin in builds for testing and debugging.
 # Local path to the plugin.
 package = "."
   # Plugin configuration
   #  [plugins.inputs]
   #  foo = "bar"
+  [context.production.plugins.inputs]
+    api_key = "44330215e51c19b1a70997b6fc3d086580618777"
+    org_slug = "myorg"
+    deployment_slug = "netlify-plugin-sleuth"
+    baseurl = "http://dev.sleuth.io"
 
 [build]
 # Dummy build command

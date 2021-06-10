@@ -66,5 +66,8 @@
   },
   "engines": {
     "node": ">=12.18.0"
+  },
+  "dependencies": {
+    "netlify": "^7.0.1"
   }
 }

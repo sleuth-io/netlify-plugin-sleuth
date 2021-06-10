@@ -1,5 +1,17 @@
-name: 'netlify-plugin-{{name}}'
-inputs: []
+name: 'netlify-plugin-sleuth'
+inputs:
+  - name: api_key
+    description: The Sleuth API key
+    required: true
+  - name: org_slug
+    description: The organization identifier
+    required: true
+  - name: deployment_slug
+    description: The code deployment identifier
+    required: true
+  - name: baseurl
+    description: The base url of the Sleuth instance
+    required: false
 # Example inputs:
 #  - name: example
 #    description: Example description

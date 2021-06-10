@@ -9,7 +9,7 @@ module.exports = {
   // Anything can be done inside those event handlers.
   // Information about the current build are passed as arguments. The build
   // configuration file and some core utilities are also available.
-  async onPreBuild({
+  async onEnd({
     // Whole configuration file. For example, content of `netlify.toml`
     netlifyConfig,
     // Users can pass configuration inputs to any plugin in their Netlify
@@ -70,21 +70,47 @@ module.exports = {
       functions,
     },
   }) {
-    try {
-      // Commands are printed in Netlify logs
-      await run('echo', ['Hello world!\n'])
-    } catch (error) {
-      // Report a user error
-      build.failBuild('Error message', { error })
+    const baseurl = inputs.baseurl || "https://app.sleuth.io"
+    const http = baseurl.indexOf("https://") > -1 ? require('https') : require('http');
+    const url = baseurl + '/api/1/deployments/' + inputs.org_slug + '/' + inputs.deployment_slug + '/register_deploy'
+    const sha = process.env.COMMIT_REF
+
+    status.show({ summary: 'Registering sha ' + sha});
+    const data = JSON.stringify({"sha": sha, "api_key": inputs.api_key})
+    const {body, statusCode} = await new Promise((resolve, reject) => {
+      const req = http.request(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Content-Length': data.length
+        }
+      }, res => {
+        let data = [];
+
+        res.on('data', chunk => {
+          data.push(chunk);
+        });
+
+        res.on('end', () => {
+          let body = Buffer.concat(data).toString();
+          resolve({body: body, statusCode: res.statusCode})
+        });
+      });
+      req.on('error', err => {
+        console.log('Error: ', err.message);
+        reject(err.message)
+      });
+      req.write(data)
+      req.end();
+    });
+    switch (statusCode) {
+      case 200: status.show({ summary: 'Success!' }); break;
+      case 401: status.show({ summary: 'Invalid api key' }); break;
+      case 400: status.show({ summary: 'Error: ' + body }); break;
+      default:
+        status.show({ summary: 'Unexpected problem: ' + body });
     }
 
-    // Console logs are shown in Netlify logs
-    console.log('Netlify configuration', netlifyConfig)
-    console.log('Plugin configuration', inputs)
-    console.log('Build directory', PUBLISH_DIR)
-
-    // Display success information
-    status.show({ summary: 'Success!' })
   },
 
   // Other available event handlers
